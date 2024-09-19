@@ -1,26 +1,29 @@
-export const menuItems = [
+import { MenuItems } from "../types/menu";
+import { dashboard, expenses, transactions, trend } from "./Icons";
+
+export const menuItems: MenuItems[] = [
     {
         id: 1,
         title: 'Dashboard',
-        icon: '',
+        icon: dashboard,
         link: '/dashboard'
     },
     {
         id: 2,
         title: 'View Transactions',
-        icon: '',
+        icon: transactions,
         link: '/transactions'
     },
     {
         id: 3,
         title: 'Incomes',
-        icon: '',
+        icon: trend,
         link: '/incomes'
     },
     {
         id: 4,
-        title: 'Dashboard',
-        icon: '',
-        link: '/dashboard'
+        title: 'Expenses',
+        icon: expenses,
+        link: '/expenses'
     },
 ]
