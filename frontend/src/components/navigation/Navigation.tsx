@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import avatar from '../../assets/images/avatar.png';
-import { MenuItems, NavigationProps } from "../../types/menu";
+import { MenuItems, NavigationProps } from "../../types/menu.type";
 import { menuItems } from "../../utils/menuItems";
 import { signout } from "../../utils/Icons";
 

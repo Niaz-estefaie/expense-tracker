@@ -4,7 +4,10 @@ import axios from "axios";
 const BASE_URL = "http://localhost:5000/api/v1";
 
 interface GlobalContextType {
-    // Add properties and functions here as needed
+    addIncome: (income: any) => Promise<void>;
+    getIncomes: () => Promise<void>;
+    incomes: any[];
+    error: string | null;
 }
 
 const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
@@ -14,28 +17,38 @@ interface GlobalProviderProps {
 }
 
 export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
-    const contextValue: GlobalContextType = {
-    };
-
-    const [incomes, setIncomes] = useState([]);
-    const [exoenses, setExpenses] = useState([]);
-    const [error, setError] = useState(null);
+    const [incomes, setIncomes] = useState<any[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
     const addIncome = async (income: any) => {
-        const response = await axios.post(`${BASE_URL}/income`)
-            .catch((error) => {
-                setError(error.response.data.message)
-            })
+        try {
+            const response = await axios.post(`${BASE_URL}/income`, income);
+            // setIncomes([...incomes, response.data]);
+        } catch (err: any) {
+            setError(err.response?.data?.message || "Something went wrong");
+        }
+    };
 
-    }
+    const getIncomes = async () => {
+        try {
+            const response = await axios.get(`${BASE_URL}/incomes`);
+            setIncomes(response.data);
+        } catch (err: any) {
+            setError(err.response?.data?.message || "Something went wrong");
+        }
+    };
 
     return (
-        <GlobalContext.Provider value={{addIncome}}>
+        <GlobalContext.Provider value={{ addIncome, getIncomes, incomes, error }}>
             {children}
         </GlobalContext.Provider>
     );
 };
 
 export const useGlobalContext = () => {
-    return useContext(GlobalContext)
-}
+    const context = useContext(GlobalContext);
+    if (context === undefined) {
+        throw new Error("useGlobalContext must be used within a GlobalProvider");
+    }
+    return context;
+};
