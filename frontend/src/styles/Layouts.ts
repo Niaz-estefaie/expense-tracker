@@ -4,10 +4,10 @@ export const MainLayout = styled.div`
     padding: 2rem;
     display: flex;
     gap: 2rem;
-    height: 100%;
+    height: 94%;
 `;
 
-export const InnerLAyout = styled.div`
+export const InnerLayout = styled.div`
     padding: 2rem 1.5rem;
     width: 100%;
 `;
