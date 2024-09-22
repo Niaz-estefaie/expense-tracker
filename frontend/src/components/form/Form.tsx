@@ -1,9 +1,11 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import DatePicker from "react-date-picker";
 import styled from "styled-components";
-import { FormState } from "../../types/form";
+import { FormState } from "../../types/form.type";
 import { useGlobalContext } from "../../context/globalContext";
-import "react-date-picker/dist/DatePicker.css"
+import "react-date-picker/dist/DatePicker.css";
+import Button from "../button/Button";
+import { plus } from "../../utils/Icons";
 
 function Form() {
     const { addIncome } = useGlobalContext();
@@ -17,20 +19,23 @@ function Form() {
 
     const { title, amount, date, category, description } = inputState;
 
-    const handleInput = (name: keyof FormState) => (event: ChangeEvent<HTMLInputElement>): void => {
+    const handleInput = (name: keyof FormState) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setInputState({ ...inputState, [name]: event.target.value });
     };
 
-    const handleDateChange = (selectedDate: Date | null) => {
-        setInputState({ ...inputState, date: selectedDate });
+    const handleDateChange = (selectedDate: any) => {
+        if (Array.isArray(selectedDate)) {
+            setInputState({ ...inputState, date: selectedDate[0] });
+        } else {
+            setInputState({ ...inputState, date: selectedDate });
+        }
     };
 
-    const handleSubmit = (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(inputState);
-
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(inputState);
         addIncome(inputState);
-    }
+    };
 
     return (
         <FormStyled onSubmit={handleSubmit}>
@@ -61,7 +66,12 @@ function Form() {
                 />
             </div>
             <div className="input-control selects">
-                <select value={category} name="category" id="category-input" onChange={handleInput('category')}>
+                <select
+                    value={category}
+                    name="category"
+                    id="category-input"
+                    onChange={handleInput('category')}
+                >
                     <option value="" disabled>Select an Option</option>
                     <option value="salary">Salary</option>
                     <option value="freelancing">Freelancing</option>
@@ -75,15 +85,22 @@ function Form() {
             </div>
             <div className="input-control">
                 <textarea
-                    type="text"
                     value={description}
                     name="description"
                     placeholder="Input Your Description"
                     onChange={handleInput('description')}
                 />
             </div>
-            <div className="submit-btn" onClick={handleSubmit}>
-                <button>Add Income</button>
+            <div className="submit-btn">
+                <Button
+                    title="Add Income"
+                    icon={plus}
+                    bPad="0.8rem 1.6rem"
+                    bRadius="5px"
+                    background="var(--color-accent)"
+                    color="white"
+                    onClick={handleSubmit}
+                />
             </div>
         </FormStyled>
     );
@@ -93,6 +110,7 @@ const FormStyled = styled.form`
     display: flex;
     flex-direction: column;
     gap: 2rem;
+
     input, textarea, select {
         font-family: inherit;
         font-size: inherit;
@@ -109,8 +127,36 @@ const FormStyled = styled.form`
             color: rgba(34, 34, 96, 0.4);
         }
     }
+
     .react-date-picker__wrapper {
         border: none !important;
+    }
+
+    .input-control {
+       input, textarea {
+        width: 100%;
+       }
+    }
+
+    .selects {
+        display: flex;
+        justify-content: flex-end;
+        select {
+            width: 100%;
+            color: rgba(34, 34, 96, 0.4);
+            &:focus, &:active {
+                color: rgba(34, 34, 96, 1);
+            }
+        }
+    }
+
+    .submit-btn {
+        button {
+            box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+            &:hover {
+                background: var(--color-green);
+            }
+        }
     }
 `;
 

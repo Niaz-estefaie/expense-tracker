@@ -1,4 +1,4 @@
-import { MenuItems } from "../types/menu";
+import { MenuItems } from "../types/menu.type";
 import { dashboard, expenses, transactions, trend } from "./Icons";
 
 export const menuItems: MenuItems[] = [
