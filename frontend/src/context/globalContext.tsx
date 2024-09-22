@@ -1,5 +1,6 @@
-import React, { createContext, ReactNode, FC, useState, useContext } from "react";
+import { createContext, ReactNode, FC, useState, useContext } from "react";
 import axios from "axios";
+import { IncomesType } from "../types/income.type";
 
 const BASE_URL = "http://localhost:5000/api/v1";
 
@@ -17,7 +18,7 @@ interface GlobalProviderProps {
 }
 
 export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
-    const [incomes, setIncomes] = useState<any[]>([]);
+    const [incomes, setIncomes] = useState<IncomesType[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     const addIncome = async (income: any) => {

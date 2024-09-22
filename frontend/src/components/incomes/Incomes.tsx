@@ -11,9 +11,7 @@ function Incomes() {
 
     useEffect(() => {
         getIncomes();
-        console.log(incomes);
-        
-    }, [incomes])
+    }, [])
 
     return (
         <IncomesStyled>
@@ -26,8 +24,7 @@ function Incomes() {
                     <div className="incomes">
                         {incomes.map((income: IncomesType) => {
                             const { _id, title, amount, date, category, description } = income;
-                            return <Income />
-
+                            return <Income key={_id} title={title} amount={amount} date={date} category={category} description={description} />;
                         })}
                     </div>
                 </div>
