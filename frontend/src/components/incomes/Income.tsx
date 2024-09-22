@@ -27,7 +27,7 @@ function Income({
                     </div>
                     <div className="btn-container">
                         <Button
-                            icon={trash()}
+                            icon={trash}
                             bPad="1rem"
                             bRadius="5rem"
                             background="var(--primary-color)"
@@ -44,7 +44,40 @@ function Income({
 }
 
 const IncomeStyled = styled.div`
+    background: #fcf6f9;
+    border: 2px solid white;
+    box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
+    border-radius: 20rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    color: #222260;
+    .icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        background: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid white;
+        i {
+            font-size: 2.6rem;
+        }
+    }
 
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        h5 {
+
+        }
+    }
 `;
 
 export default Income;
