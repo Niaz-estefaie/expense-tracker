@@ -1,5 +1,5 @@
 const { getMessage } = require('../helpers/error-messages');
-const { ExpenseSchema } = require('../models/expense.model')
+const ExpenseSchema = require('../models/expense.model')
 
 exports.addExpense = async (req, res) => {
     const { title, amount, category, description, date } = req.body;
@@ -32,6 +32,8 @@ exports.getExpenses = async (req, res) => {
         const expenses = await ExpenseSchema.find().sort({ createdAt: -1 });
         res.status(200).json(expenses)
     } catch (error) {
+        console.log(error);
+        
         res.status(500).json(getMessage(500))
     }
 }

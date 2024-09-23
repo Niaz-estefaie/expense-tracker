@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { InnerLayout } from "../../styles/Layouts";
 import { useGlobalContext } from "../../context/globalContext";
-import Form from "../form/Form";
 import { useEffect } from "react";
 import { IncomesType } from "../../types/income.type";
 import Income from "./Income";
+import IncomeForm from "../form/IncomeForm";
 
 function Incomes() {
     const { getIncomes, incomes, deleteIncome, totalIncome } = useGlobalContext();
@@ -20,7 +20,7 @@ function Incomes() {
                 <h2 className="total-income">Total Income: <span>${totalIncome()}</span></h2>
                 <div className="income-content">
                     <div className="form-container">
-                        <Form />
+                        <IncomeForm />
                     </div>
                     <div className="incomes">
                         {incomes.map((income: IncomesType) => {
