@@ -7,7 +7,7 @@ import "react-date-picker/dist/DatePicker.css";
 import Button from "../button/Button";
 import { plus } from "../../utils/Icons";
 
-function Form() {
+function IncomeForm() {
     const { addIncome } = useGlobalContext();
     const [inputState, setInputState] = useState<FormState>({
         title: '',
@@ -44,7 +44,7 @@ function Form() {
     };
 
     return (
-        <FormStyled onSubmit={handleSubmit}>
+        <IncomeFormStyled onSubmit={handleSubmit}>
             <div className="input-control">
                 <input
                     type="text"
@@ -108,11 +108,11 @@ function Form() {
                     onClick={handleSubmit}
                 />
             </div>
-        </FormStyled>
+        </IncomeFormStyled>
     );
 }
 
-const FormStyled = styled.form`
+const IncomeFormStyled = styled.form`
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -160,4 +160,4 @@ const FormStyled = styled.form`
     }
 `;
 
-export default Form;
+export default IncomeForm;

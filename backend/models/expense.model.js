@@ -10,7 +10,6 @@ const ExpenseSchema = new mongoose.Schema({
     amount: {
         type: Number,
         required: true,
-        maxLength: 20,
         trim: true
     },
     type: {
@@ -32,6 +31,6 @@ const ExpenseSchema = new mongoose.Schema({
         trim: true,
         maxLength: 200
     },
-}, { timestamps: true })
+}, { timestamps: true });
 
 module.exports = mongoose.model('Expense', ExpenseSchema);
