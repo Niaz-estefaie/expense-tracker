@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { dollar, calender, comment, trash } from "../../utils/Icons";
+import { dollar, calender, comment, trash, money, freelance, stocks, users, bitcoin, card, yt, piggy, book, food, medical, tv, takeaway, clothing, circle } from "../../utils/Icons";
 import Button from "../button/Button";
 import { IncomeComponentType } from "../../types/income.type";
 
@@ -14,15 +14,68 @@ function Income({
     colorIndicator,
     type
 }: IncomeComponentType) {
+    const categoryIcon = () => {
+        switch (category) {
+            case 'salary':
+                return money();
+            case 'freelancing':
+                return freelance();
+            case 'investment':
+                return stocks();
+            case 'stocks':
+                return users()
+            case 'bitcoin':
+                return bitcoin();
+            case 'bank':
+                return card();
+            case 'youtube':
+                return yt();
+            case 'other':
+                return piggy();
+            default:
+                return '';
+        }
+    };
+
+    const expenseCategoryIcon = () => {
+        switch (category) {
+            case 'education':
+                return book();
+            case 'groceries':
+                return food();
+            case 'health':
+                return medical();
+            case 'subscriptions':
+                return tv()
+            case 'takeaways':
+                return takeaway();
+            case 'clothing':
+                return clothing();
+            case 'travelling':
+                return freelance();
+            case 'other':
+                return circle();
+            default:
+                return '';
+        }
+    };
+
+    const handleDelete = (id: string) => {
+        console.log(id);
+
+        deleteItem(id);
+    };
     return (
-        <IncomeStyled>
-            <div className="icon"></div>
+        <IncomeStyled $indicator={colorIndicator}>
+            <div className="icon">
+                {type === 'expense' ? expenseCategoryIcon() : categoryIcon()}
+            </div>
             <div className="content">
                 <h5>{title}</h5>
                 <div className="inner-content">
                     <div className="text">
                         <p>{dollar()} {amount}</p>
-                        <p>{calender()} {date}</p>
+                        <p>{calender()} {date ? date?.toString() : "No date provided"}</p>
                         <p>{comment()} {description}</p>
                     </div>
                     <div className="btn-container">
@@ -32,9 +85,7 @@ function Income({
                             bRadius="5rem"
                             background="var(--primary-color)"
                             color="white"
-                            // iColor="white"
-                            // hColor="var(--color-green)"
-                            // onClick={() => handleDelete(id)}
+                            onClick={() => handleDelete(id)}
                         />
                     </div>
                 </div>
@@ -43,7 +94,7 @@ function Income({
     )
 }
 
-const IncomeStyled = styled.div`
+const IncomeStyled = styled.div<{ $indicator: string | undefined }>`
     background: #fcf6f9;
     border: 2px solid white;
     box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
@@ -73,9 +124,40 @@ const IncomeStyled = styled.div`
         flex: 1;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.2rem;
         h5 {
+            font-size: 1.3rem;
+            padding-left: 2rem;
+            position: relative;
+            &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 0.8rem;
+                height: 0.8rem;
+                border-radius: 50%;
+                background: ${(props) => props.$indicator};
+            }
+        }
 
+        .inner-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .text {
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+                p {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: var(--primary-color);
+                    opacity: 0.8;
+                }
+            }
         }
     }
 `;
