@@ -8,7 +8,7 @@ export interface IncomesType {
 }
 
 export interface IncomeComponentType {
-    id?: string;
+    id: string;
     title?: string;
     amount?: string;
     date?: Date;

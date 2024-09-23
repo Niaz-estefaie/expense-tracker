@@ -47,9 +47,9 @@ function App() {
 }
 
 const AppStyled = styled.div<{ $bg: string }>`
+  height: 100vh;
   background-image: url(${(props) => props.$bg});
   position: relative;
-  height: 100vh;
   main {
     flex: 1;
     background: rgba(252, 246, 249, 0.78);

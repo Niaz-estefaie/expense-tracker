@@ -5,3 +5,7 @@ export interface FormState {
     category: string;
     description: string;
 }
+
+export type CategoryType = 'salary' | 'freelancing' | 'investment' | 'stocks' | 'bitcoin' | 'bank' | 'youtube' | 'other';
+
+export type ExpenseCategoryType = 'education' | 'groceries' | 'health' | 'subscriptions' | 'takeaways' | 'clothing' | 'travelling' | 'other';

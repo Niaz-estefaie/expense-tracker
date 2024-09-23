@@ -7,6 +7,7 @@ const BASE_URL = "http://localhost:5000/api/v1";
 interface GlobalContextType {
     addIncome: (income: any) => Promise<void>;
     getIncomes: () => Promise<void>;
+    deleteIncome: (id: string) => Promise<void>;
     incomes: any[];
     error: string | null;
 }
@@ -23,8 +24,7 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
 
     const addIncome = async (income: any) => {
         try {
-            const response = await axios.post(`${BASE_URL}/income`, income);
-            // setIncomes([...incomes, response.data]);
+            await axios.post(`${BASE_URL}/income`, income);
         } catch (err: any) {
             setError(err.response?.data?.message || "Something went wrong");
         }
@@ -39,8 +39,18 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
         }
     };
 
+    const deleteIncome = async (id: string) => {
+        try {
+            await axios.delete(`${BASE_URL}/income/${id}`);
+            setIncomes(incomes.filter((income) => income._id !== id));
+        }
+        catch (err: any) {
+            setError(err.response?.data?.message || "Something went wrong");
+        }
+    }
+
     return (
-        <GlobalContext.Provider value={{ addIncome, getIncomes, incomes, error }}>
+        <GlobalContext.Provider value={{ addIncome, getIncomes, deleteIncome, incomes, error }}>
             {children}
         </GlobalContext.Provider>
     );
