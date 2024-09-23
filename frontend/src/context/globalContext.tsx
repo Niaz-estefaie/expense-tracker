@@ -8,6 +8,7 @@ interface GlobalContextType {
     addIncome: (income: any) => Promise<void>;
     getIncomes: () => Promise<void>;
     deleteIncome: (id: string) => Promise<void>;
+    totalIncome: () => string | number;
     incomes: any[];
     error: string | null;
 }
@@ -25,6 +26,7 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
     const addIncome = async (income: any) => {
         try {
             await axios.post(`${BASE_URL}/income`, income);
+            getIncomes();
         } catch (err: any) {
             setError(err.response?.data?.message || "Something went wrong");
         }
@@ -43,14 +45,23 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
         try {
             await axios.delete(`${BASE_URL}/income/${id}`);
             setIncomes(incomes.filter((income) => income._id !== id));
+            getIncomes();
         }
         catch (err: any) {
             setError(err.response?.data?.message || "Something went wrong");
         }
     }
 
+    const totalIncome = () => {
+        let currentIncome: string | number = 0;
+        incomes.forEach((income) => {
+            currentIncome += income.amount;
+        });
+        return currentIncome;
+    }
+
     return (
-        <GlobalContext.Provider value={{ addIncome, getIncomes, deleteIncome, incomes, error }}>
+        <GlobalContext.Provider value={{ addIncome, getIncomes, deleteIncome, totalIncome, incomes, error }}>
             {children}
         </GlobalContext.Provider>
     );

@@ -61,8 +61,6 @@ function Income({
     };
 
     const handleDelete = (id: string) => {
-        console.log(id);
-
         deleteItem(id);
     };
     return (
