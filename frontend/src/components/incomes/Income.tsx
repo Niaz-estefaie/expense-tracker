@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { dollar, calender, comment, trash, money, freelance, stocks, users, bitcoin, card, yt, piggy, book, food, medical, tv, takeaway, clothing, circle } from "../../utils/Icons";
 import Button from "../button/Button";
 import { IncomeComponentType } from "../../types/income.type";
+import { formatDate } from "../../utils/dateFormat";
 
 function Income({
     id,
@@ -73,7 +74,7 @@ function Income({
                 <div className="inner-content">
                     <div className="text">
                         <p>{dollar()} {amount}</p>
-                        <p>{calender()} {date ? date?.toString() : "No date provided"}</p>
+                        <p>{calender()} {formatDate(date)}</p>
                         <p>{comment()} {description}</p>
                     </div>
                     <div className="btn-container">
@@ -93,16 +94,15 @@ function Income({
 }
 
 const IncomeStyled = styled.div<{ $indicator: string | undefined }>`
+    border-radius: 5rem !important;
     background: #fcf6f9;
     border: 2px solid white;
     box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.06);
-    border-radius: 20rem;
     padding: 1rem;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 1rem;
-    width: 100%;
     color: #222260;
     .icon {
         width: 80px;

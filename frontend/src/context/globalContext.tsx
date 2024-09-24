@@ -15,6 +15,8 @@ interface GlobalContextType {
     getExpenses: () => Promise<void>;
     deleteExpense: (id: string) => Promise<void>;
     totalEsxpense: () => string | number;
+    totalBalance: () => string | number;
+    transactionHistory: () => ExpensesType | IncomesType[];
     expenses: any[];
     error: string | null;
 }
@@ -106,9 +108,22 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
         return currentExpense;
     }
 
+    // General
+    const totalBalance = (): string | number => {
+        return totalIncome() - totalEsxpense()
+    }
+
+    const transactionHistory = () => {
+        const history = [...incomes, ...expenses];
+         history.sort((a, b) => {
+             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+         });
+         return history.slice(0, 5);
+    }
+
     return (
         <GlobalContext.Provider value={{
-            addIncome, getIncomes, deleteIncome, totalIncome, addExpense, getExpenses, deleteExpense, totalEsxpense, incomes, expenses, error
+            addIncome, getIncomes, deleteIncome, totalIncome, addExpense, getExpenses, deleteExpense, totalEsxpense, totalBalance, transactionHistory, incomes, expenses, error
         }}>
             {children}
         </GlobalContext.Provider>
