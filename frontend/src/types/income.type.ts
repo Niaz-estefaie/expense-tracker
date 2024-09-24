@@ -5,13 +5,14 @@ export interface IncomesType {
     date: Date;
     category: string;
     description: string;
+    createdAt: string;
 }
 
 export interface IncomeComponentType {
     id: string;
-    title?: string;
-    amount?: string;
-    date?: Date;
+    title: string;
+    amount: string;
+    date: Date;
     category?: string;
     description?: string;
     deleteItem?: any;
