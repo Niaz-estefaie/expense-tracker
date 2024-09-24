@@ -6,18 +6,18 @@ import { ExpensesType } from "../types/expense.type";
 const BASE_URL = "http://localhost:5000/api/v1";
 
 interface GlobalContextType {
-    addIncome: (income: any) => Promise<void>;
+    addIncome: (income: IncomesType) => Promise<void>;
     getIncomes: () => Promise<void>;
     deleteIncome: (id: string) => Promise<void>;
     totalIncome: () => string | number;
-    incomes: any[];
-    addExpense: (income: any) => Promise<void>;
+    incomes: IncomesType[];
+    addExpense: (expense: ExpensesType) => Promise<void>;
     getExpenses: () => Promise<void>;
     deleteExpense: (id: string) => Promise<void>;
     totalEsxpense: () => string | number;
     totalBalance: () => string | number;
     transactionHistory: () => ExpensesType | IncomesType[];
-    expenses: any[];
+    expenses: ExpensesType[];
     error: string | null;
 }
 
@@ -32,34 +32,34 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
     const [incomes, setIncomes] = useState<IncomesType[]>([]);
     const [error, setError] = useState<string | null>(null);
 
-    // Income
-    const addIncome = async (income: any) => {
+    const handleError = (err: any) => {
+        setError(err.response?.data?.message || "Something went wrong");
+    };
+
+    const apiRequest = async (url: string, method: 'get' | 'post' | 'delete', data?: any) => {
         try {
-            await axios.post(`${BASE_URL}/incomes`, income);
-            getIncomes();
-        } catch (err: any) {
-            setError(err.response?.data?.message || "Something went wrong");
+            const response = await axios({ method, url, data });
+            return response.data;
+        } catch (err) {
+            handleError(err);
         }
+    };
+
+    // Income
+    const addIncome = async (income: IncomesType) => {
+        await apiRequest(`${BASE_URL}/incomes`, 'post', income);
+        getIncomes();
     };
 
     const getIncomes = async () => {
-        try {
-            const response = await axios.get(`${BASE_URL}/incomes`);
-            setIncomes(response.data);
-        } catch (err: any) {
-            setError(err.response?.data?.message || "Something went wrong");
-        }
+        const data = await apiRequest(`${BASE_URL}/incomes`, 'get');
+        if (data) setIncomes(data);
     };
 
     const deleteIncome = async (id: string) => {
-        try {
-            await axios.delete(`${BASE_URL}/incomes/${id}`);
-            setIncomes(incomes.filter((income) => income._id !== id));
-            getIncomes();
-        }
-        catch (err: any) {
-            setError(err.response?.data?.message || "Something went wrong");
-        }
+        await apiRequest(`${BASE_URL}/incomes/${id}`, 'delete');
+        setIncomes(incomes.filter((income) => income._id !== id));
+        getIncomes();
     }
 
     const totalIncome = () => {
@@ -71,33 +71,20 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
     }
 
     // Expense
-    const addExpense = async (expense: any) => {
-        try {
-            await axios.post(`${BASE_URL}/expenses`, expense);
-            getExpenses();
-        } catch (err: any) {
-            setError(err.response?.data?.message || "Something went wrong");
-        }
+    const addExpense = async (expense: ExpensesType) => {
+        await apiRequest(`${BASE_URL}/expenses`, 'post', expense);
+        getExpenses();
     };
 
     const getExpenses = async () => {
-        try {
-            const response = await axios.get(`${BASE_URL}/expenses`);
-            setExpenses(response.data);
-        } catch (err: any) {
-            setError(err.response?.data?.message || "Something went wrong");
-        }
+        const data = await apiRequest(`${BASE_URL}/expenses`, 'get');
+        if (data) setExpenses(data);
     };
 
     const deleteExpense = async (id: string) => {
-        try {
-            await axios.delete(`${BASE_URL}/expenses/${id}`);
-            setExpenses(expenses.filter((expense) => expense._id !== id));
-            getExpenses();
-        }
-        catch (err: any) {
-            setError(err.response?.data?.message || "Something went wrong");
-        }
+        await apiRequest(`${BASE_URL}/expenses/${id}`, 'delete');
+        setExpenses(expenses.filter((expense) => expense._id !== id));
+        getExpenses();
     }
 
     const totalEsxpense = () => {
@@ -109,16 +96,13 @@ export const GlobalProvider: FC<GlobalProviderProps> = ({ children }) => {
     }
 
     // General
-    const totalBalance = (): string | number => {
-        return totalIncome() - totalEsxpense()
-    }
+    const totalBalance = (): string | number => (totalIncome() - totalEsxpense());
 
     const transactionHistory = () => {
         const history = [...incomes, ...expenses];
-         history.sort((a, b) => {
-             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-         });
-         return history.slice(0, 5);
+        return history
+            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            .slice(0, 5);
     }
 
     return (
