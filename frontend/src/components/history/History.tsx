@@ -24,7 +24,7 @@ function History() {
                             color: type === 'expense' ? 'red' : 'var(--color-green)'
                         }}>
                             {
-                                type === 'expense' ? `-${amount <= 0 ? 0 : amount}` : `+${amount <= 0 ? 0 : amount}`
+                                type === 'expense' ? `-${parseFloat(amount) <= 0 ? 0 : amount}` : `+${parseFloat(amount) <= 0 ? 0 : amount}`
                             }
                         </p>
                     </div>

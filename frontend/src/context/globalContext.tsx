@@ -16,7 +16,7 @@ interface GlobalContextType {
     deleteExpense: (id: string) => Promise<void>;
     totalEsxpense: () => string | number;
     totalBalance: () => string | number;
-    transactionHistory: () => ExpensesType | IncomesType[];
+    transactionHistory: () => ExpensesType[] | IncomesType[];
     expenses: ExpensesType[];
     error: string | null;
 }

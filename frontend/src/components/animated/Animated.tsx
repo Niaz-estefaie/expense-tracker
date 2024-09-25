@@ -12,7 +12,7 @@ const AnimatedStyled = styled.div<{ width: number; height: number }>`
   filter: blur(400px);
   animation: ${({ width, height }) => keyframes`
      0% { transform: translate(0, 0); }
-     50% { transform: translate(${width / 1.2}px, ${height / 1.5}px); }
+     50% { transform: translate(${width}px, ${height}px); }
      100% { transform: translate(0, 0); }
   `} 15s alternate linear infinite;
 `;
