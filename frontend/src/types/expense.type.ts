@@ -6,6 +6,7 @@ export interface ExpensesType {
     category: string;
     description: string;
     createdAt: string;
+    type: string;
 }
 
 export interface ExpenseComponentType {

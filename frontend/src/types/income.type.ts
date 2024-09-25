@@ -6,6 +6,7 @@ export interface IncomesType {
     category: string;
     description: string;
     createdAt: string;
+    type: string;
 }
 
 export interface IncomeComponentType {
